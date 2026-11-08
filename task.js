@@ -3,10 +3,7 @@ export function addTask(tasks, title) {
 
     const cleanTitle = title.trim();
 
-    if (!cleanTitle) {
-        throw new Error('Task title cannot be empty');
-    }
-
+    
     const newTask = {
         id: Date.now(),
         title: cleanTitle,
