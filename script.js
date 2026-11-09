@@ -1,18 +1,18 @@
 
+import { addTask } from './task.js';
 import {
     addTask,
     completeTask,
-    deleteTask
+    deleteTask,
+    updateTask
 } from './task.js';
-
 let tasks = [];
 
 const taskForm = document.getElementById('task-form');
 const taskInput = document.getElementById('task-input');
 const taskList = document.getElementById('task-list');
 
-
-// Display tasks
+// Display all tasks
 function displayTasks() {
 
     taskList.innerHTML = '';
@@ -20,43 +20,35 @@ function displayTasks() {
     tasks.forEach(task => {
 
         const li = document.createElement('li');
-        li.className = 'task-item';
 
-        const title = document.createElement('span');
-        title.textContent = task.title;
-
-        if (task.completed) {
-            title.classList.add('completed');
-        }
-
-        const completeButton = document.createElement('button');
-        completeButton.textContent = task.completed
-            ? 'Completed'
-            : 'Complete';
-
-        completeButton.disabled = task.completed;
-
-        completeButton.addEventListener('click', () => {
-            tasks = completeTask(tasks, task.id);
-            displayTasks();
-        });
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-
-        deleteButton.addEventListener('click', () => {
-            tasks = deleteTask(tasks, task.id);
-            displayTasks();
-        });
-
-        li.append(title, completeButton, deleteButton);
+        li.textContent = task.title;
 
         taskList.appendChild(li);
+
     });
+    const editButton = document.createElement('button');
+
+editButton.textContent = 'Edit';
+
+editButton.addEventListener('click', () => {
+
+    const newTitle = prompt('Enter the new task title:', task.title);
+
+    if (newTitle === null) {
+        return;
+    }
+
+    try {
+        tasks = updateTask(tasks, task.id, newTitle);
+        displayTasks();
+    } catch (error) {
+        alert(error.message);
+    }
+
+});
 }
 
-
-// Add task
+// Add a new task
 taskForm.addEventListener('submit', function(event) {
 
     event.preventDefault();
@@ -74,4 +66,6 @@ taskForm.addEventListener('submit', function(event) {
         alert(error.message);
 
     }
+
 });
+

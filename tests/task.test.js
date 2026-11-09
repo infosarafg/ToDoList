@@ -1,6 +1,12 @@
 
 import { describe, it, expect } from 'vitest';
 import { addTask } from '../task.js';
+import {
+    addTask,
+    completeTask,
+    deleteTask,
+    updateTask
+} from '../task.js';
 
 describe('Add Task', () => {
 
@@ -61,3 +67,28 @@ describe('Delete Task', () => {
     });
 
 });
+
+describe('Modify Task', () => {
+
+    it('should update the task title', () => {
+
+        const tasks = [
+            {
+                id: 1,
+                title: 'Study HTML',
+                completed: false
+            }
+        ];
+
+        const result = updateTask(
+            tasks,
+            1,
+            'Study JavaScript'
+        );
+
+        expect(result[0].title).toBe('Study JavaScript');
+
+    });
+
+});
+

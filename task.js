@@ -3,10 +3,7 @@ export function addTask(tasks, title) {
 
     const cleanTitle = title.trim();
 
-    if (!cleanTitle) {
-        throw new Error('Task title cannot be empty');
-    }
-
+    
     const newTask = {
         id: Date.now(),
         title: cleanTitle,
@@ -36,3 +33,24 @@ export function deleteTask(tasks, taskId) {
 
     return tasks.filter(task => task.id !== taskId);
 }
+export function updateTask(tasks, taskId, newTitle) {
+
+    const cleanTitle = newTitle.trim();
+
+    if (!cleanTitle) {
+        throw new Error('Task title cannot be empty');
+    }
+
+    return tasks.map(task => {
+
+        if (task.id === taskId) {
+            return {
+                ...task,
+                title: cleanTitle
+            };
+        }
+
+        return task;
+    });
+}
+
